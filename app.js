@@ -1,14 +1,10 @@
 /* ===== GameZone — App Logic ===== */
 
-// ---------- Sample game catalog ----------
 const SAMPLE_GAMES = [];
 
-// ---------- State ----------
 let games = [];
-let currentCategory = "all";
 let searchQuery = "";
 
-// ---------- Init ----------
 function init() {
     loadGames();
     renderGames();
@@ -29,23 +25,13 @@ function saveGames() {
     localStorage.setItem("gamezone_games", JSON.stringify(games));
 }
 
-// ---------- Render ----------
 function renderGames() {
     const grid = document.getElementById("gamesGrid");
     const noResults = document.getElementById("noResults");
-    const countEl = document.getElementById("gameCount");
-    const titleEl = document.getElementById("sectionTitle");
 
-    const filtered = games.filter(g => {
-        const matchCat = currentCategory === "all" || g.category === currentCategory;
-        const matchSearch = g.name.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchCat && matchSearch;
-    });
-
-    // Section title
-    const catLabels = { all: "Tüm Oyunlar", aksiyon: "Aksiyon", bulmaca: "Bulmaca", yarış: "Yarış", spor: "Spor", strateji: "Strateji" };
-    titleEl.textContent = "🔥 " + (catLabels[currentCategory] || "Tüm Oyunlar");
-    countEl.textContent = filtered.length + " oyun";
+    const filtered = games.filter(g =>
+        g.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     if (filtered.length === 0) {
         grid.innerHTML = "";
@@ -75,19 +61,7 @@ function formatPlays(n) {
     return n.toString();
 }
 
-// ---------- Events ----------
 function bindEvents() {
-    // Category nav
-    document.querySelectorAll(".nav-link").forEach(link => {
-        link.addEventListener("click", e => {
-            e.preventDefault();
-            document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
-            link.classList.add("active");
-            currentCategory = link.dataset.category;
-            renderGames();
-        });
-    });
-
     // Search
     document.getElementById("searchInput").addEventListener("input", e => {
         searchQuery = e.target.value;
@@ -98,8 +72,7 @@ function bindEvents() {
     document.getElementById("gamesGrid").addEventListener("click", e => {
         const card = e.target.closest(".game-card");
         if (!card) return;
-        const id = parseInt(card.dataset.id);
-        openGame(id);
+        openGame(parseInt(card.dataset.id));
     });
 
     // Close game modal
@@ -108,7 +81,7 @@ function bindEvents() {
         if (e.target === e.currentTarget) closeGame();
     });
 
-    // Upload FAB
+    // Admin button opens upload
     document.getElementById("fabUpload").addEventListener("click", () => {
         document.getElementById("uploadModal").classList.add("open");
     });
@@ -129,75 +102,67 @@ function bindEvents() {
             document.getElementById("uploadModal").classList.remove("open");
         }
     });
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('.nav-link[href^="#"]').forEach(link => {
+        link.addEventListener("click", e => {
+            e.preventDefault();
+            const target = document.querySelector(link.getAttribute("href"));
+            if (target) target.scrollIntoView({ behavior: "smooth" });
+        });
+    });
 }
 
-// ---------- Game Modal ----------
 function openGame(id) {
     const game = games.find(g => g.id === id);
     if (!game) return;
-
-    // Increment plays
     game.plays++;
     saveGames();
 
     document.getElementById("modalTitle").textContent = game.name;
     document.getElementById("modalCategory").textContent = game.category.toUpperCase();
     document.getElementById("modalPlays").textContent = "▶ " + formatPlays(game.plays) + " oynama";
-
-    const container = document.getElementById("modalGameContainer");
-    container.innerHTML = `<iframe src="${game.url}" allowfullscreen></iframe>`;
-
+    document.getElementById("modalGameContainer").innerHTML = `<iframe src="${game.url}" allowfullscreen></iframe>`;
     document.getElementById("gameModal").classList.add("open");
     document.body.style.overflow = "hidden";
 }
 
 function closeGame() {
-    const modal = document.getElementById("gameModal");
-    modal.classList.remove("open");
+    document.getElementById("gameModal").classList.remove("open");
     document.getElementById("modalGameContainer").innerHTML = "";
     document.body.style.overflow = "";
 }
 
-// ---------- Upload ----------
 function handleUpload(e) {
     e.preventDefault();
     const statusEl = document.getElementById("uploadStatus");
     const name = document.getElementById("uploadName").value.trim();
     const category = document.getElementById("uploadCategory").value;
-    const file = document.getElementById("uploadFile").files[0];
+    const url = document.getElementById("uploadUrl").value.trim();
     const imageFile = document.getElementById("uploadImage").files[0];
 
-    if (!name || !file) return;
+    if (!name || !url) return;
 
-    // For demo: create a blob URL from the uploaded HTML file
-    const reader = new FileReader();
-    reader.onload = function (ev) {
-        const blob = new Blob([ev.target.result], { type: "text/html" });
-        const url = URL.createObjectURL(blob);
-
-        const newGame = {
-            id: Date.now(),
-            name: name,
-            category: category,
-            emoji: getCategoryEmoji(category),
-            url: url,
-            plays: 0,
-            image: null
-        };
-
-        // Handle cover image
-        if (imageFile) {
-            const imgReader = new FileReader();
-            imgReader.onload = function (imgEv) {
-                newGame.image = imgEv.target.result;
-                addGame(newGame, statusEl);
-            };
-            imgReader.readAsDataURL(imageFile);
-        } else {
-            addGame(newGame, statusEl);
-        }
+    const newGame = {
+        id: Date.now(),
+        name: name,
+        category: category,
+        emoji: getCategoryEmoji(category),
+        url: url,
+        plays: 0,
+        image: null
     };
-    reader.readAsArrayBuffer(file);
+
+    if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = function (ev) {
+            newGame.image = ev.target.result;
+            addGame(newGame, statusEl);
+        };
+        reader.readAsDataURL(imageFile);
+    } else {
+        addGame(newGame, statusEl);
+    }
 }
 
 function addGame(game, statusEl) {
@@ -220,5 +185,4 @@ function getCategoryEmoji(cat) {
     return map[cat] || "🎮";
 }
 
-// ---------- Start ----------
 document.addEventListener("DOMContentLoaded", init);
