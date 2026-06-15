@@ -154,6 +154,56 @@
     </div>
 </div>
 
+<!-- Admin Login Modal -->
+<div class="modal-overlay" id="adminLoginModal">
+    <div class="modal" style="max-width:380px; text-align:center;">
+        <button class="modal-close" id="adminLoginClose">&times;</button>
+        <div style="font-size:3rem; margin-bottom:16px;">🔒</div>
+        <h2 class="modal-title">ADMİN GİRİŞİ</h2>
+        <p style="font-size:0.8rem; color:#8892a4; margin-bottom:24px;">Devam etmek için şifre gir</p>
+        <form id="adminLoginForm">
+            <input type="password" id="adminPassword" placeholder="Şifre..." required style="width:100%; padding:12px 16px; border-radius:6px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.04); color:#fff; font-size:1rem; text-align:center; outline:none; margin-bottom:14px;">
+            <button type="submit" class="btn-upload" style="font-family:'Orbitron',sans-serif; letter-spacing:2px;">GİRİŞ YAP</button>
+        </form>
+        <p id="adminLoginError" style="color:#f87171; margin-top:12px; font-size:0.85rem;"></p>
+    </div>
+</div>
+
+<!-- Admin Panel Modal -->
+<div class="modal-overlay" id="adminPanelModal">
+    <div class="modal" style="max-width:700px;">
+        <button class="modal-close" id="adminPanelClose">&times;</button>
+        <h2 class="modal-title" style="color:#00e5ff;">🎮 ADMİN PANELİ</h2>
+
+        <!-- Add Game -->
+        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:20px; margin-bottom:20px;">
+            <h3 style="font-family:'Orbitron',sans-serif; font-size:0.75rem; color:#00e5ff; letter-spacing:2px; margin-bottom:16px;">➕ YENİ OYUN EKLE</h3>
+            <form id="adminAddForm">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+                    <input type="text" id="adminGameName" placeholder="Oyun Adı" required style="padding:10px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.04); color:#fff; font-size:0.85rem; outline:none;">
+                    <select id="adminGameCategory" style="padding:10px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.04); color:#fff; font-size:0.85rem; outline:none;">
+                        <option value="aksiyon">Aksiyon</option>
+                        <option value="bulmaca">Bulmaca</option>
+                        <option value="yarış">Yarış</option>
+                        <option value="spor">Spor</option>
+                        <option value="strateji">Strateji</option>
+                    </select>
+                </div>
+                <input type="url" id="adminGameUrl" placeholder="Oyun URL (link)" required style="width:100%; padding:10px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.04); color:#fff; font-size:0.85rem; outline:none; margin-bottom:12px;">
+                <input type="url" id="adminGameImage" placeholder="Kapak Resmi URL (opsiyonel)" style="width:100%; padding:10px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.04); color:#fff; font-size:0.85rem; outline:none; margin-bottom:12px;">
+                <button type="submit" class="btn-upload" style="font-family:'Orbitron',sans-serif; letter-spacing:2px;">OYUN EKLE</button>
+            </form>
+            <p id="adminAddStatus" style="text-align:center; margin-top:10px; font-size:0.85rem;"></p>
+        </div>
+
+        <!-- Game List -->
+        <div>
+            <h3 style="font-family:'Orbitron',sans-serif; font-size:0.75rem; color:#ff2d7b; letter-spacing:2px; margin-bottom:12px;">📋 MEVCUT OYUNLAR</h3>
+            <div id="adminGameList"></div>
+        </div>
+    </div>
+</div>
+
 <!-- Footer -->
 <footer class="footer">
     <div class="container footer-inner">
