@@ -1,249 +1,227 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎮 GAMEZONE</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>GameZone | Eğlence Merkezi</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-<!-- Header -->
-<header class="header">
-    <div class="container header-inner">
-        <a href="#" class="logo">🎮 GAMEZONE</a>
-        <nav class="nav">
-            <a href="#" class="nav-link active">ANA SAYFA</a>
-            <a href="#games" class="nav-link">OYUNLAR</a>
-            <a href="#about" class="nav-link">HAKKIMIZDA</a>
-            <a href="#contact" class="nav-link">İLETİŞİM</a>
+    <header>
+        <div class="logo">GAME<span>ZONE</span></div>
+        <nav>
+            <ul>
+                <li><a href="#">Ana Sayfa</a></li>
+                <li><a href="#">Popüler</a></li>
+                <li><a href="#">Yeni</a></li>
+            </ul>
         </nav>
-        <!-- Admin: logoyu 3 kere tıkla -->
-    </div>
-</header>
+    </header>
 
-<!-- Hero -->
-<section class="hero">
-    <div class="hero-bg"></div>
-    <div class="container hero-content">
-        <p class="hero-tag">// GAMEZONE V1.0</p>
-        <h1 class="hero-title">
-            Oyunları <span class="cyan">aç</span><span class="pink">.</span><br>
-            Sınırları <span class="pink">parçala</span><span class="cyan">.</span>
-        </h1>
-        <p class="hero-desc">GameZone, en iyi ücretsiz oyunları keşfedebileceğin yer.<br>Modern, hızlı, ücretsiz — sadece oyna.</p>
-        <div class="hero-buttons">
-            <a href="#games" class="btn btn-primary">OYUNLARI KEŞFET</a>
-            <a href="#about" class="btn btn-outline">NASIL ÇALIŞIR?</a>
-        </div>
-    </div>
-</section>
+    <section class="hero">
+        <h1>Oyun Dünyasına Hoş Geldin</h1>
+        <p>En iyi tarayıcı oyunlarını keşfet ve hemen oyna!</p>
+    </section>
 
-<!-- Ticker -->
-<div class="ticker">
-    <div class="ticker-track">
-        <span>◆ 100% FREE</span>
-        <span>◆ ANINDA OYNA</span>
-        <span>◆ KAYIT GEREKTIRMEZ</span>
-        <span>◆ MOBİL UYUMLU</span>
-        <span>◆ HER GÜN YENİ OYUN</span>
-        <span>◆ HIZLI YÜKLENİR</span>
-        <span>◆ 100% FREE</span>
-        <span>◆ ANINDA OYNA</span>
-        <span>◆ KAYIT GEREKTIRMEZ</span>
-        <span>◆ MOBİL UYUMLU</span>
-        <span>◆ HER GÜN YENİ OYUN</span>
-        <span>◆ HIZLI YÜKLENİR</span>
-    </div>
-</div>
-
-<!-- Games Section -->
-<section class="section" id="games">
-    <div class="container">
-        <div class="section-header">
-            <p class="section-tag">// KÜTÜPHANEMİZ</p>
-            <h2 class="section-title">Oyunlar</h2>
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Oyun ara...">
-            </div>
-        </div>
-        <div class="games-grid" id="gamesGrid"></div>
-        <div class="no-results" id="noResults" style="display:none;">
-            <p>😕 Henüz oyun eklenmedi. Admin panelinden oyun yükleyebilirsin!</p>
-        </div>
-    </div>
-</section>
-
-<!-- About Section -->
-<section class="section section-dark" id="about">
-    <div class="container">
-        <p class="section-tag">// NASIL ÇALIŞIR?</p>
-        <h2 class="section-title">3 Adımda Oyna</h2>
-        <div class="steps-grid">
-            <div class="step-card">
-                <div class="step-number">01</div>
-                <h3>Oyun Seç</h3>
-                <p>Kütüphaneden istediğin oyunu bul ve tıkla.</p>
-            </div>
-            <div class="step-card">
-                <div class="step-number">02</div>
-                <h3>Hemen Oyna</h3>
-                <p>İndirme yok, kayıt yok. Tarayıcında anında başla.</p>
-            </div>
-            <div class="step-card">
-                <div class="step-number">03</div>
-                <h3>Eğlen</h3>
-                <p>Arkadaşlarınla paylaş, birlikte eğlenin!</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Contact Section -->
-<section class="section" id="contact">
-    <div class="container contact-center">
-        <p class="section-tag">// İLETİŞİM</p>
-        <h2 class="section-title">Bize Ulaş</h2>
-        <p class="contact-desc">Soru, öneri veya oyun isteğin mi var? Bize yaz!</p>
-        <a href="mailto:info@gamezone.com" class="btn btn-primary">MAİL GÖNDER</a>
-    </div>
-</section>
-
-<!-- Game Modal -->
-<div class="modal-overlay" id="gameModal">
-    <div class="modal">
-        <button class="modal-close" id="modalClose">&times;</button>
-        <h2 class="modal-title" id="modalTitle"></h2>
-        <div class="modal-game-container" id="modalGameContainer"></div>
-        <div class="modal-info">
-            <span class="modal-category" id="modalCategory"></span>
-            <span class="modal-plays" id="modalPlays"></span>
-        </div>
-    </div>
-</div>
-
-<!-- Upload Modal -->
-<div class="modal-overlay" id="uploadModal">
-    <div class="modal upload-modal">
-        <button class="modal-close" id="uploadClose">&times;</button>
-        <h2>🎮 Oyun Yükle</h2>
-        <form id="uploadForm">
-            <label>Oyun Adı
-                <input type="text" id="uploadName" required placeholder="Örn: Süper Macera">
-            </label>
-            <label>Kategori
-                <select id="uploadCategory">
-                    <option value="aksiyon">Aksiyon</option>
-                    <option value="bulmaca">Bulmaca</option>
-                    <option value="yarış">Yarış</option>
-                    <option value="spor">Spor</option>
-                    <option value="strateji">Strateji</option>
-                </select>
-            </label>
-            <label>Oyun URL (link)
-                <input type="url" id="uploadUrl" placeholder="https://ornek.com/oyun" required>
-            </label>
-            <label>Kapak Resmi (opsiyonel)
-                <input type="file" id="uploadImage" accept="image/*">
-            </label>
-            <button type="submit" class="btn-upload">YÜKLE</button>
-        </form>
-        <div id="uploadStatus" class="upload-status"></div>
-    </div>
-</div>
-
-<!-- Admin Login Modal -->
-<div class="modal-overlay" id="adminLoginModal">
-    <div class="modal" style="max-width:380px; text-align:center;">
-        <button class="modal-close" id="adminLoginClose">&times;</button>
-        <div style="font-size:3rem; margin-bottom:16px;">🔒</div>
-        <h2 class="modal-title">ADMİN GİRİŞİ</h2>
-        <p style="font-size:0.8rem; color:#8892a4; margin-bottom:24px;">Devam etmek için şifre gir</p>
-        <form id="adminLoginForm">
-            <input type="password" id="adminPassword" placeholder="Şifre..." required style="width:100%; padding:12px 16px; border-radius:6px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.04); color:#fff; font-size:1rem; text-align:center; outline:none; margin-bottom:14px;">
-            <button type="submit" class="btn-upload" style="font-family:'Orbitron',sans-serif; letter-spacing:2px;">GİRİŞ YAP</button>
-        </form>
-        <p id="adminLoginError" style="color:#f87171; margin-top:12px; font-size:0.85rem;"></p>
-    </div>
-</div>
-
-<!-- Admin Panel Modal -->
-<div class="modal-overlay" id="adminPanelModal">
-    <div class="modal" style="max-width:700px;">
-        <button class="modal-close" id="adminPanelClose">&times;</button>
-        <h2 class="modal-title" style="color:#00e5ff;">🎮 ADMİN PANELİ</h2>
-
-        <!-- Add Game -->
-        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:20px; margin-bottom:20px;">
-            <h3 style="font-family:'Orbitron',sans-serif; font-size:0.75rem; color:#00e5ff; letter-spacing:2px; margin-bottom:16px;">➕ YENİ OYUN EKLE</h3>
-            <form id="adminAddForm">
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
-                    <input type="text" id="adminGameName" placeholder="Oyun Adı" required style="padding:10px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.04); color:#fff; font-size:0.85rem; outline:none;">
-                    <select id="adminGameCategory" style="padding:10px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.04); color:#fff; font-size:0.85rem; outline:none;">
-                        <option value="aksiyon">Aksiyon</option>
-                        <option value="bulmaca">Bulmaca</option>
-                        <option value="yarış">Yarış</option>
-                        <option value="spor">Spor</option>
-                        <option value="strateji">Strateji</option>
-                    </select>
+    <main class="game-container">
+        <!-- Oyun Kartı 1 -->
+        <div class="game-card" onclick="toggleActions(this)">
+            <div class="game-badge">Yeni</div>
+            <img src="https://via.placeholder.com/300x180" alt="Oyun">
+            <div class="game-info">
+                <h3>Süper Snake</h3>
+                <p>Klasik yılan oyunu, şimdi daha hızlı!</p>
+                <div class="actions" id="actions-1">
+                    <a href="oyun-linki.html" class="play-btn">Oyna</a>
+                    <a href="indir/snake.zip" download class="download-btn">
+                        <i class="fas fa-download"></i> İndir
+                    </a>
                 </div>
-                <input type="url" id="adminGameUrl" placeholder="Oyun URL (link)" required style="width:100%; padding:10px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.04); color:#fff; font-size:0.85rem; outline:none; margin-bottom:12px;">
-                <input type="url" id="adminGameImage" placeholder="Kapak Resmi URL (opsiyonel)" style="width:100%; padding:10px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.04); color:#fff; font-size:0.85rem; outline:none; margin-bottom:12px;">
-                <button type="submit" class="btn-upload" style="font-family:'Orbitron',sans-serif; letter-spacing:2px;">OYUN EKLE</button>
-            </form>
-            <p id="adminAddStatus" style="text-align:center; margin-top:10px; font-size:0.85rem;"></p>
+            </div>
         </div>
 
-        <!-- Game List -->
-        <div>
-            <h3 style="font-family:'Orbitron',sans-serif; font-size:0.75rem; color:#ff2d7b; letter-spacing:2px; margin-bottom:12px;">📋 MEVCUT OYUNLAR</h3>
-            <div id="adminGameList"></div>
+        <!-- Oyun Kartı 2 -->
+        <div class="game-card" onclick="toggleActions(this)">
+            <img src="https://via.placeholder.com/300x180" alt="Oyun">
+            <div class="game-info">
+                <h3>Uzay Savaşçıları</h3>
+                <p>Galaksiyi istilacılardan koru.</p>
+                <div class="actions">
+                    <a href="oyun-linki.html" class="play-btn">Oyna</a>
+                    <a href="indir/space.zip" download class="download-btn">
+                        <i class="fas fa-download"></i> İndir
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
-<!-- Footer -->
-<footer class="footer">
-    <div class="container footer-inner">
-        <span class="logo-small">🎮 GAMEZONE</span>
-        <p>&copy; 2025 GameZone — Tüm hakları saklıdır.</p>
-    </div>
-</footer>
+        <!-- Daha fazla kart ekleyebilirsin -->
+    </main>
 
-<script src="app.js"></script>
-</body><!-- Birinci Oyun Örneği -->
-<div class="game-card" onclick="showDownload(this)">
-    <h3>Süper Oyun</h3>
-    <p>Oynamak için tıkla!</p>
-    
-    <!-- Başlangıçta gizli indirme butonu -->
-    <a href="dosyalar/super-oyun.zip" download class="download-btn" id="dl-1">
-        Hemen İndir (.zip)
-    </a>
-</div>
+    <footer>
+        <p>&copy; 2023 GameZone - Musa Dursun Tarafından Geliştirildi</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
 </html>
-/* İndirme butonu varsayılan olarak gizli */
-.download-btn {
-    display: none;
-    background-color: #28a745;
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-top: 10px;
-    font-weight: bold;
+2. Adım: Modern CSS (style.css)
+Bu kodlar sitene "Gamer" atmosferi katacak (Neon renkle
+code
+CSS
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-/* Oyun kartı stili */
-.game-card {
-    border: 1px solid #ccc;
-    padding: 20px;
-    cursor: pointer;
+body {
+    background-color: #0f0f1a;
+    color: white;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.logo span {
+    color: #00d2ff;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
     transition: 0.3s;
 }
 
+nav ul li a:hover {
+    color: #00d2ff;
+}
+
+.hero {
+    text-align: center;
+    padding: 100px 20px;
+    background: linear-gradient(45deg, #1a1a2e, #16213e);
+}
+
+.game-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 50px 8%;
+}
+
+.game-card {
+    background: #1e1e2f;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 .game-card:hover {
-    background-color: #f0f0f0;
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 210, 255, 0.3);
+}
+
+.game-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.game-info {
+    padding: 20px;
+}
+
+.game-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #ff4d4d;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.actions {
+    display: none; /* Başlangıçta gizli */
+    margin-top: 15px;
+    gap: 10px;
+}
+
+.play-btn, .download-btn {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    flex: 1;
+}
+
+.play-btn {
+    background: #00d2ff;
+    color: #000;
+}
+
+.download-btn {
+    background: #32ff7e;
+    color: #000;
+}
+
+footer {
+    text-align: center;
+    padding: 40px;
+    font-size: 14px;
+    opacity: 0.6;
+}
+3. Adım:
+Karta tıklandığında butonları açan kod:
+code
+Java
+function toggleActions(card) {
+    // Tüm kartlardaki butonları önce kapat (isteğe bağlı)
+    /* 
+    document.querySelectorAll('.actions').forEach(el => el.style.display = 'none');
+    */
+
+    const actions = card.querySelector('.actions');
+    
+    // Eğer kapalıysa aç, açıksa kapat
+    if (actions.style.display === "flex") {
+        actions.style.display = "none";
+    } else {
+        actions.style.display = "flex";
+    }
 }
