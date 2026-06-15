@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Y GameZone - Oyun İndirme Sitesi</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600&display=swap');
+
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-purple: #bc13fe;
+            --bg-dark: #050505;
+            --bg-card: #111111;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(0,0,0,0.8);
+            border-bottom: 2px solid var(--neon-purple);
+            box-shadow: 0 0 15px var(--neon-purple);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+            cursor: pointer;
+        }
+
+        .logo span { color: var(--neon-purple); text-shadow: 0 0 10px var(--neon-purple); }
+
+        nav { display: flex; gap: 30px; align-items: center; }
+        
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        nav a:hover { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
+
+        /* Gizli Admin Butonu */
+        #adminBtn {
+            display: none; /* Sadece giriş yapınca görünür */
+            background: var(--neon-purple);
+            padding: 8px 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px var(--neon-purple);
+        }
+        #adminBtn:hover { background: #fff; color: var(--neon-purple); }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            background: radial-gradient(circle at center, #1a0033 0%, var(--bg-dark) 70%);
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px var(--neon-blue);
+        }
+
+        .hero p { font-size: 1.5rem; color: #aaa; }
+
+        /* Oyun Grid */
+        .container { max-width: 1200px; margin: 0 auto; padding: 50px 20px; }
+        
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--neon-blue);
+            padding-left: 15px;
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .game-card {
+            background: var(--bg-card);
+            border: 1px solid #333;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+        }
+
+        .game-info { padding: 15px; }
+        
+        .game-info h3 {
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 10px;
+            color: var(--neon-blue);
+        }
+
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: var(--neon-purple);
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: 0.3s;
+            box-shadow: 0 0 10px var(--neon-purple);
+        }
+
+        .download-btn:hover { background: #fff; color: var(--neon-purple); }
+
+        /* Admin Panel Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #111;
+            border: 2px solid var(--neon-blue);
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 0 30px var(--neon-blue);
+        }
+
+        .modal-content h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-blue);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group { margin-bottom: 15px; }
+        
+        .form-group label { display: block; margin-bottom: 5px; color: #aaa; }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            background: #000;
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        .form-group input:focus { outline: none; border-color: var(--neon-purple); }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .btn-primary { background: var(--neon-blue); color: #000; width: 100%; }
+        .btn-primary:hover { background: #fff; }
+        
+        .btn-danger { background: #ff0055; color: #fff; padding: 5px 10px; font-size: 0.8rem; }
+        .btn-close { background: #333; color: #fff; float: right; }
+
+        .admin-game-list { margin-top: 20px; max-height: 300px; overflow-y: auto; }
+        .admin-game-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #000;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: #000;
+            border-top: 1px solid #333;
+            color: #555;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Y<span>GameZone</span></div>
+        <nav>
+            <a href="#">Ana Sayfa</a>
+            <a href="#games">Oyunlar</a>
+            <a href="#" id="adminBtn" onclick="openAdmin()">Admin Panel</a>
+            <a href="#" onclick="openLogin()" style="font-size: 0.8rem; opacity: 0.3;"></a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>GELECEĞİN OYUN DÜNYASI</h1>
+        <p>En yeni ve en popüler oyunları burada bulabilirsin.</p>
+    </section>
+
+    <div class="container" id="games">
+        <h2 class="section-title">Popüler Oyunlar</h2>
+        <div class="game-grid" id="gameGrid">
+            <!-- Oyunlar buraya JS ile eklenecek -->
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="btn btn-close" onclick="closeModal('loginModal')">X</button>
+            <h2>Admin Girişi</h2>
+            <div class="form-group">
+                <label>Şifre</label>
+                <input type="password" id="adminPass" placeholder="Şifrenizi girin">
+            </div>
+            <button class="btn btn-primary" onclick="checkLogin()">Giriş Yap</button>
+            <p style="text-align:center; margin-top:10px; color:#555; font-size:0.8rem;">(Demo Şifre: admin123)</p>
+        </div>
+    </div>
+
+    <!-- Admin Panel Modal -->
+    <div class="modal" id="adminModal">
+        <div class="modal-content">
+            <button class="btn btn-close" onclick="closeModal('adminModal')">X</button>
+            <h2>Admin Paneli</h2>
+            
+            <div class="form-group">
+                <label>Oyun Adı</label>
+                <input type="text" id="gameName">
+            </div>
+            <div class="form-group">
+                <label>Oyun Resmi (URL)</label>
+                <input type="text" id="gameImg">
+            </div>
+            <div class="form-group">
+                <label>İndirme Linki</label>
+                <input type="text" id="gameLink">
+            </div>
+            <button class="btn btn-primary" onclick="addGame()">Oyun Ekle</button>
+
+            <h3 style="margin-top: 30px; color: var(--neon-purple);">Mevcut Oyunlar</h3>
+            <div class="admin-game-list" id="adminGameList">
+                <!-- Admin listesi buraya gelecek -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Y GameZone. Tüm hakları saklıdır.
+    </footer>
+
+    <script>
+        // Varsayılan oyunlar (İlk açılışta görünür)
+        const defaultGames = [
+            { name: "Cyberpunk 2077", img: "https://image.api.playstation.com/vulcan/ap/rnd/202311/2712/1c7b75d8ed9271516546560d219ad0b22ee0a263b4537bd8.png", link: "#" },
+            { name: "Elden Ring", img: "https://image.api.playstation.com/vulcan/ap/rnd/202110/2000/phvVT0qZfcRms5qDAk0SI3CM.png", link: "#" },
+            { name: "GTA V", img: "https://image.api.playstation.com/vulcan/ap/rnd/202202/2816/mYn2ETBTsOQ18Vz9xJ8C1xqO.png", link: "#" }
+        ];
+
+        let games = JSON.parse(localStorage.getItem('gamezone_games')) || defaultGames;
+        let isAdmin = false;
+
+        // Oyunları Listele
+        function renderGames() {
+            const grid = document.getElementById('gameGrid');
+            grid.innerHTML = '';
+            games.forEach(game => {
+                grid.innerHTML += `
+                    <div class="game-card">
+                        <img src="${game.img}" alt="${game.name}" onerror="this.src='https://via.placeholder.com/250x350/000000/00f3ff?text=Resim+Yok'">
+                        <div class="game-info">
+                            <h3>${game.name}</h3>
+                            <a href="${game.link}" class="download-btn" target="_blank">İNDİR</a>
+                        </div>
+                    </div>
+                `;
+            });
+            renderAdminList();
+        }
+
+        // Admin Listesini Güncelle
+        function renderAdminList() {
+            const list = document.getElementById('adminGameList');
+            list.innerHTML = '';
+            games.forEach((game, index) => {
+                list.innerHTML += `
+                    <div class="admin-game-item">
+                        <span>${game.name}</span>
+                        <button class="btn btn-danger" onclick="deleteGame(${index})">Sil</button>
+                    </div>
+                `;
+            });
+        }
+
+        // Oyun Ekle
+        function addGame() {
+            const name = document.getElementById('gameName').value;
+            const img = document.getElementById('gameImg').value;
+            const link = document.getElementById('gameLink').value;
+
+            if(name && img && link) {
+                games.push({ name, img, link });
+                localStorage.setItem('gamezone_games', JSON.stringify(games));
+                renderGames();
+                document.getElementById('gameName').value = '';
+                document.getElementById('gameImg').value = '';
+                document.getElementById('gameLink').value = '';
+                alert('Oyun başarıyla eklendi!');
+            } else {
+                alert('Lütfen tüm alanları doldurun!');
+            }
+        }
+
+        // Oyun Sil
+        function deleteGame(index) {
+            if(confirm('Bu oyunu silmek istediğine emin misin?')) {
+                games.splice(index, 1);
+                localStorage.setItem('gamezone_games', JSON.stringify(games));
+                renderGames();
+            }
+        }
+
+        // Giriş İşlemleri
+        function openLogin() {
+            if(isAdmin) { openAdmin(); return; }
+            document.getElementById('loginModal').style.display = 'flex';
+        }
+
+        function checkLogin() {
+            const pass = document.getElementById('adminPass').value;
+            if(pass === 'admin123') { // Şifreni buradan değiştirebilirsin
+                isAdmin = true;
+                document.getElementById('adminBtn').style.display = 'block';
+                closeModal('loginModal');
+                openAdmin();
+                document.getElementById('adminPass').value = '';
+            } else {
+                alert('Hatalı şifre!');
+            }
+        }
+
+        function openAdmin() {
+            document.getElementById('adminModal').style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        // Başlangıçta çalıştır
+        renderGames();
+    </script>
+</body>
+</html>
