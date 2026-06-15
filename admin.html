@@ -181,6 +181,21 @@
 </head>
 <body>
 
+<!-- Login Screen -->
+<div id="loginScreen" style="display:none; position:fixed; inset:0; background:#0a0a0f; z-index:999; align-items:center; justify-content:center;">
+    <div style="background:#12121f; border:1px solid rgba(255,255,255,0.06); border-radius:16px; padding:40px; max-width:380px; width:90%; text-align:center;">
+        <div style="font-size:3rem; margin-bottom:16px;">🔒</div>
+        <h2 style="font-family:'Orbitron',sans-serif; font-size:1rem; font-weight:700; letter-spacing:2px; color:#fff; margin-bottom:8px;">ADMİN GİRİŞİ</h2>
+        <p style="font-size:0.8rem; color:#8892a4; margin-bottom:24px;">Devam etmek için şifre gir</p>
+        <form id="loginForm">
+            <input type="password" id="loginPassword" placeholder="Şifre..." required style="width:100%; padding:12px 16px; border-radius:6px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.04); color:#fff; font-size:1rem; text-align:center; outline:none; margin-bottom:14px;">
+            <button type="submit" style="width:100%; padding:13px; border:none; border-radius:6px; background:#00e5ff; color:#0a0a0f; font-family:'Orbitron',sans-serif; font-size:0.75rem; font-weight:700; letter-spacing:2px; cursor:pointer;">GİRİŞ YAP</button>
+        </form>
+        <p id="loginError" style="color:#f87171; margin-top:12px; font-size:0.85rem;"></p>
+    </div>
+</div>
+
+<div id="adminContent" style="display:none;">
 <header class="admin-header">
     <div class="container">
         <div class="admin-logo">🎮 GAMEZONE <span>ADMİN</span></div>
@@ -238,14 +253,41 @@
         <div class="game-list" id="gameList"></div>
     </div>
 </div>
+</div> <!-- adminContent -->
 
 <script>
+const ADMIN_PASSWORD = "gamezone2928";
 let games = [];
 
 function init() {
+    // Şifre kontrolü
+    if (sessionStorage.getItem("gamezone_admin") !== "true") {
+        showLogin();
+        return;
+    }
+    document.getElementById("adminContent").style.display = "block";
     loadGames();
     renderList();
     document.getElementById("addForm").addEventListener("submit", addGame);
+}
+
+function showLogin() {
+    document.getElementById("loginScreen").style.display = "flex";
+    document.getElementById("adminContent").style.display = "none";
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        const pass = document.getElementById("loginPassword").value;
+        if (pass === ADMIN_PASSWORD) {
+            sessionStorage.setItem("gamezone_admin", "true");
+            document.getElementById("loginScreen").style.display = "none";
+            document.getElementById("adminContent").style.display = "block";
+            loadGames();
+            renderList();
+            document.getElementById("addForm").addEventListener("submit", addGame);
+        } else {
+            document.getElementById("loginError").textContent = "❌ Yanlış şifre!";
+        }
+    });
 }
 
 function loadGames() {

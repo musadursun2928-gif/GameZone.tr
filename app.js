@@ -111,6 +111,20 @@ function bindEvents() {
             if (target) target.scrollIntoView({ behavior: "smooth" });
         });
     });
+
+    // Secret admin: logo'ya 3 kere tıkla
+    let logoClicks = 0;
+    let logoTimer = null;
+    document.querySelector(".logo").addEventListener("click", e => {
+        e.preventDefault();
+        logoClicks++;
+        clearTimeout(logoTimer);
+        logoTimer = setTimeout(() => { logoClicks = 0; }, 1500);
+        if (logoClicks >= 3) {
+            logoClicks = 0;
+            window.location.href = "admin.html";
+        }
+    });
 }
 
 function openGame(id) {
